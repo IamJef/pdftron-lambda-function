@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "@pdftron/pdfnet-node": "^9.1.0"
+    "@pdftron/pdfnet-node": "^9.1.0",
+    "aws-sdk": "^2.983.0",
+    "npm": "^6.4.1"
   },
   "name": "at-encpdf",
   "version": "1.0.0",
   "description": "Encrypt pdf files when is uploaded in Bucket s3",
   "main": "encrypt.js",
-  "devDependencies": {},
   "scripts": {
     "deploy": "serverless deploy -v"
   },
