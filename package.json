@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@pdftron/pdfnet-node": "^9.1.0"
+  },
+  "name": "at-encpdf",
+  "version": "1.0.0",
+  "description": "Encrypt pdf files when is uploaded in Bucket s3",
+  "main": "encrypt.js",
+  "devDependencies": {},
+  "scripts": {
+    "deploy": "serverless deploy -v"
+  },
+  "author": "Jeferson Oliveira Gomes (jeferson.oliveira@arcotech.io)",
+  "license": "ISC"
+}
