@@ -4,7 +4,7 @@
 
 * Node 12.x
 * NPM 7.4.x
-* Serverless CLI [Serverless Framework](http://serverless.com.br)
+* Serverless CLI [Serverless Framework](http://serverless.com)
 
 ## Config
 Edit **serverless.yml** and set your configs. Pdftron License Key, Bucket,
