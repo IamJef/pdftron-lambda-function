@@ -9,6 +9,6 @@
   "scripts": {
     "deploy": "serverless deploy -v"
   },
-  "author": "Jeferson Oliveira Gomes (jeferson.oliveira@arcotech.io)",
+  "author": "Jeferson Oliveira Gomes (jeferson.gomes@arcotech.io)",
   "license": "ISC"
 }

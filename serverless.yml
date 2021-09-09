@@ -10,10 +10,9 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - s3:GetObject
-        - s3:PutObject
+        - s3:*
       Resource:
-        - "arn:aws:s3:::arcotechstudoslmsfiles"
+        - "arn:aws:s3:::arcotechstudoslmsfiles/*"
   lambdaHashingVersion: 20201221
 
 
@@ -31,4 +30,4 @@ functions:
           rules:
             - prefix: lms/uploads/
             - suffix: .pdf
-          existing: true #Use this attribute if Bucket already created
+          #existing: true #Use this attribute if Bucket already created

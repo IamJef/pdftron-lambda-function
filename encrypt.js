@@ -5,35 +5,46 @@ const s3 = new AWS.S3();
 const { PDFNet } = require('@pdftron/pdfnet-node');
 const { basename, extname } = require('path');
 
-module.exports.handle = async (event, context) => {
+module.exports.handle = async ({Records: records}) => {
   let response = null;
   const main = async () => {
-      const key  = event.Records[0].s3.object.key;
+    try {
+      await Promise.all(records.map(async record => {
+        console.log(record)
+        const key  = record.s3.object.key;
 
-      const file = await s3.getObject({
-        Bucket: process.env.bucket,
-        Key: key,
-      }).promise();
+        const file = await s3.getObject({
+          Bucket: process.env.bucket,
+          Key: key,
+        }).promise();
+        
+        const arr = new Uint8Array(file.Body);
+        const doc = await PDFNet.PDFDoc.createFromBuffer(arr);
+        const newHandler = await PDFNet.SecurityHandler.createDefault(); 
       
-      const arr = new Uint8Array(file.Body);
-      const doc = await PDFNet.PDFDoc.createFromBuffer(arr);
-      const newHandler = await PDFNet.SecurityHandler.createDefault(); 
-    
 
-      newHandler.changeUserPasswordUString(process.env.hash);
-      newHandler.setPermission(PDFNet.SecurityHandler.Permission.e_print, false);
-      newHandler.setPermission(PDFNet.SecurityHandler.Permission.e_extract_content, false);
+        newHandler.changeUserPasswordUString(process.env.hash);
+        newHandler.setPermission(PDFNet.SecurityHandler.Permission.e_print, false);
+        newHandler.setPermission(PDFNet.SecurityHandler.Permission.e_extract_content, false);
 
-      doc.setSecurityHandler(newHandler);
-      const encrypted = await doc.saveMemoryBuffer(arr.length);
-      var base64data = new Buffer.from(encrypted, 'binary');
+        doc.setSecurityHandler(newHandler);
+        const encrypted = await doc.saveMemoryBuffer(arr.length);
+        var base64data = new Buffer.from(encrypted, 'binary');
 
-      await s3.putObject({
-        Body: base64data,
-        Bucket: process.env.bucket,
-        ContentType: 'application/pdf',
-        Key: `encrypted/${basename(key, extname(key))}.pdf`
-      }).promise()
+        await s3.putObject({
+          Body: base64data,
+          Bucket: process.env.bucket,
+          ContentType: 'application/pdf',
+          Key: `encrypted/${basename(key, extname(key))}.pdf`
+        }).promise()
+      }));
+    } catch (err) {
+      console.log(err)
+      response = {
+        statusCode: 500,
+        body: JSON.stringify(err)
+      }
+    }
     
     response = {
       statusCode: 301,
