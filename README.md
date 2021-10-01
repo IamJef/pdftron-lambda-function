@@ -1,4 +1,4 @@
-# at-pdfenc
+# Pdftron encrypt - lambda function
 
 ## Prerequisites
 
