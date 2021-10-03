@@ -10,7 +10,6 @@ module.exports.handle = async ({Records: records}) => {
   const main = async () => {
     try {
       await Promise.all(records.map(async record => {
-        console.log(record)
         const key  = record.s3.object.key;
 
         const file = await s3.getObject({
