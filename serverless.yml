@@ -20,7 +20,7 @@ functions:
   encrypt:
     handler: encrypt.handle
     environment:
-      bucket: arcotechstudoslmsfiles
+      bucket: yourbucketname
       hash: "%252s%¨3-"
       pdftronkey: "demo:1630507513016:78fce14403000000007b2248cb7b18a79ea8aea117e5f1c5e5b33d2214"
     events:
